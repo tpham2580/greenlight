@@ -9,6 +9,10 @@ import (
 func (app *application) routes() *httprouter.Router {
 	router := httprouter.New()
 
+	//custom error handlers for 400 level responses
+	router.NotFound = http.HandlerFunc(app.notFoundResponse)
+	router.MethodNotAllowed = http.HandlerFunc(app.methodNotAllowedResponse)
+
 	// URLs
 	router.HandlerFunc(http.MethodGet, "/v1/healthcheck", app.healthcheckHandler)
 	router.HandlerFunc(http.MethodPost, "/v1/movies", app.createMovieHandler)
